@@ -1,0 +1,111 @@
+import bpy
+import bmesh
+from bpy.props import *
+from bpy.types import (Panel, Menu, Operator, PropertyGroup)
+
+class BW_OT_Generate(bpy.types.Operator):
+    bl_idname = "object.bw_generate"
+    bl_label = "Generate"
+    bl_description = "Generate books based on settings"
+    bl_options = { 'REGISTER', 'UNDO' }
+
+    regen: BoolProperty(name = "Regenration", default = False)
+
+    def execute(self, ctx):
+        scene = ctx.scene
+        bw = scene.booksgen
+
+        collection_name = bw.books_collection
+        try:
+            booksCollection = bpy.data.collections[collection_name]
+        except:
+            booksCollection = None
+            self.report({'ERROR'}, 'Select the books collection.')
+            return { 'CANCELLED' }
+
+        if booksCollection is None:
+            self.report({'ERROR'}, 'Select the books collection.')
+            return { 'CANCELLED' }
+        else:
+        #    for i in booksCollection.all_objects:
+                # self.report({'INFO'}, i.name)
+                # bpy.context.view_layer.objects.active = bpy.data.objects[i.name]
+                if not self.regen:
+                    genBookGroups(ctx, booksCollection.all_objects)
+                else:
+                    regenerateBookGroups(ctx, booksCollection.all_objects)
+                
+        return { 'FINISHED' }
+
+def genBookGroups(ctx, collection):
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    cols = bw.shelf_columns
+    rows = bw.shelf_rows
+    col_gap = bw.shelf_column_width
+    row_gap = bw.shelf_row_width
+
+    try:
+        bookshelf = bpy.data.collections['Bookshelf']
+    except:
+        bookshelf = bpy.data.collections.new('Bookshelf')
+        bpy.context.scene.collection.children.link(bookshelf)
+
+    # Get object from book collection
+    book = collection[0]
+
+    arr = genModuleArray(ctx)
+    print(arr)
+
+    for row in arr:
+        for obj in row:
+            # bpy.ops.mesh.primitive_cube_add(location = (obj['x'], 0, obj['y']))
+            bpy.ops.object.add_named(linked = False, name = book.name)
+            copy = bpy.context.active_object
+            copy.location = (obj['x'], 0, obj['y'])
+            # bpy.ops.collection.objects_remove_all()
+            bpy.data.collections['Bookshelf'].objects.link(copy)
+    
+    # Remove dupes from starting collection
+    bpy.ops.collection.objects_remove(collection = bw.books_collection)
+
+def genModuleArray(ctx):
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    moduleArr = []
+    for x in range(bw.shelf_rows):
+        moduleArr.append([])
+        for y in range(bw.shelf_columns):
+            moduleArr[x].append(calcModuleCoords(ctx, x, y))
+    
+    return(moduleArr)
+
+def regenerateBookGroups(ctx, collection):
+    # Get collection
+    bookshelf = bpy.data.collections['Bookshelf']
+
+    for i in bookshelf.all_objects:
+        i.select_set(True)
+    bpy.ops.object.delete()
+
+    genBookGroups(ctx, collection)
+
+########################################
+# Math Helpers
+########################################
+
+def calcModuleCoords(ctx, x, y):
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    row_gap = bw.shelf_row_width
+    col_gap = bw.shelf_column_width
+    module_width = bw.module_width
+    module_height = bw.module_height
+
+    posX = x * (module_width + col_gap)
+    posY = y * (module_height + row_gap)
+
+    return {'x': posX, 'y': posY}
