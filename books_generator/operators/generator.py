@@ -60,11 +60,10 @@ def genBookGroups(ctx, collection):
 
     for row in arr:
         for obj in row:
-            # bpy.ops.mesh.primitive_cube_add(location = (obj['x'], 0, obj['y']))
-            bpy.ops.object.add_named(linked = False, name = book.name)
-            copy = bpy.context.active_object
-            copy.location = (obj['x'], 0, obj['y'])
-            # bpy.ops.collection.objects_remove_all()
+            # bpy.ops.object.add_named(linked = False, name = book.name)
+            # copy = bpy.context.active_object
+            # copy.location = (obj['x'], 0, obj['y'])
+            copy = genObj(ctx, book, obj)
             bpy.data.collections['Bookshelf'].objects.link(copy)
     
     # Remove dupes from starting collection
@@ -91,6 +90,31 @@ def regenerateBookGroups(ctx, collection):
     bpy.ops.object.delete()
 
     genBookGroups(ctx, collection)
+
+########################################
+# Object Helpers
+########################################
+
+def genObj(ctx, base, obj):
+    # Base generator for each book object
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    # bpy.ops.mesh.primitive_cube_add()
+    bpy.ops.object.add_named(linked = False, name = base.name)
+    copy = bpy.context.active_object
+
+    if bw.linked_copies:
+        copy.data = base.data
+    else:
+        old = copy.data.name
+        copy.data = base.data.copy()
+        bpy.data.meshes.remove(bpy.data.meshes[old])
+
+    # Set coords
+    copy.location = (obj['x'], 0, obj['y'])
+    
+    return copy
 
 ########################################
 # Math Helpers
