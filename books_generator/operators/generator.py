@@ -161,8 +161,8 @@ def calcBookDimensions(ctx):
     width_fac = bw.book_width_fac
     height_fac = bw.book_height_fac
 
-    x = 1 + random.uniform(-0.5, 0.7) * width_fac
+    x = 1 + random.uniform(-0.7, 0.8) * width_fac
     y = 1
-    z = 1
+    z = 1 + random.uniform(-0.3, 0.6) * height_fac
 
     return (x, y, z)

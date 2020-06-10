@@ -165,7 +165,7 @@ class BWProperties(PropertyGroup):
         name = "Book Height Variation",
         description = "Variably adjust the scaling of the height of the book",
         min = 0,
-        max = 0,
+        max = 1,
         default = 0
     )
 
