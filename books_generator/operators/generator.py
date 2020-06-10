@@ -9,7 +9,7 @@ class BW_OT_Generate(bpy.types.Operator):
     bl_description = "Generate books based on settings"
     bl_options = { 'REGISTER', 'UNDO' }
 
-    regen: BoolProperty(name = "Regenration", default = False)
+    regen: BoolProperty(name = "Regeneration", default = False)
 
     def execute(self, ctx):
         scene = ctx.scene
@@ -97,6 +97,7 @@ def regenerateBookGroups(ctx, collection):
 ########################################
 
 def calcModuleCoords(ctx, x, y):
+    # Calculate the starting coordinates for each module
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -109,3 +110,13 @@ def calcModuleCoords(ctx, x, y):
     posY = y * (module_height + row_gap)
 
     return {'x': posX, 'y': posY}
+
+def calcBookDimensions(ctx, width, height):
+    # Calculate the book dimensions based on the scaling variable
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    module_width = bw.module_width
+    module_height = bw.module_height
+    width_fac = bw.book_width_fac
+    height_fac = bw.book_height_fac

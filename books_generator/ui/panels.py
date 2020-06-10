@@ -79,6 +79,14 @@ class OBJECT_PT_BooksGenerator(Panel):
         
         elif bw.gen_type == 'SINGLE':
             layout.label(text = "Work on single gen")
+        
+        # Settings for variations in scaling
+        box = layout.box()
+        box.label(text = 'Group Settings')
+
+        row = box.row()
+        row.prop(bw, "book_width_fac")
+        row.prop(bw, "book_height_fac")
 
 class OBJECT_PT_BooksList(Panel):
     bl_idname = "object.book_wizard_PT_bookslist"

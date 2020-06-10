@@ -48,6 +48,12 @@ from . operators.generator import BW_OT_Generate
 class BWProperties(PropertyGroup):
 
     # General settings
+    initial_gen: BoolProperty(
+        name = 'Initial generation',
+        description = 'Used to determine whether or not to display the Regenerate button',
+        default = False
+    )
+
     gen_seed: IntProperty(
         name = "Seed",
         description = "Input a seed for book generation",
@@ -144,6 +150,23 @@ class BWProperties(PropertyGroup):
         min = 0,
         max = 50,
         default = 2
+    )
+
+    # Settings for each shelf module
+    book_width_fac: FloatProperty(
+        name = "Book Width Variation",
+        description = "Variably adjust the scaling of the width of the book",
+        min = 0,
+        max = 1,
+        default = 0
+    )
+
+    book_height_fac: FloatProperty(
+        name = "Book Height Variation",
+        description = "Variably adjust the scaling of the height of the book",
+        min = 0,
+        max = 0,
+        default = 0
     )
 
 # Registration
