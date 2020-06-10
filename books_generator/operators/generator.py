@@ -3,6 +3,8 @@ import bmesh
 from bpy.props import *
 from bpy.types import (Panel, Menu, Operator, PropertyGroup)
 
+import random
+
 class BW_OT_Generate(bpy.types.Operator):
     bl_idname = "object.bw_generate"
     bl_label = "Generate"
@@ -30,6 +32,11 @@ class BW_OT_Generate(bpy.types.Operator):
         #    for i in booksCollection.all_objects:
                 # self.report({'INFO'}, i.name)
                 # bpy.context.view_layer.objects.active = bpy.data.objects[i.name]
+
+                # I don't even know why this is needed, but it is
+                for obj in bpy.context.selected_objects:
+                    obj.select_set(False)
+
                 if not self.regen:
                     genBookGroups(ctx, booksCollection.all_objects)
                 else:
@@ -85,6 +92,9 @@ def regenerateBookGroups(ctx, collection):
     # Get collection
     bookshelf = bpy.data.collections['Bookshelf']
 
+    # make sure nothing gets accidentally added to the selection set to be deleted
+    # bpy.context.scene.objects.active = None
+
     for i in bookshelf.all_objects:
         i.select_set(True)
     bpy.ops.object.delete()
@@ -113,6 +123,12 @@ def genObj(ctx, base, obj):
 
     # Set coords
     copy.location = (obj['x'], 0, obj['y'])
+
+    # Set scale
+    scaling = calcBookDimensions(ctx)
+    copy.scale[0] = scaling[0]
+    copy.scale[1] = scaling[1]
+    copy.scale[2] = scaling[2]
     
     return copy
 
@@ -135,7 +151,7 @@ def calcModuleCoords(ctx, x, y):
 
     return {'x': posX, 'y': posY}
 
-def calcBookDimensions(ctx, width, height):
+def calcBookDimensions(ctx):
     # Calculate the book dimensions based on the scaling variable
     scene = ctx.scene
     bw = scene.booksgen
@@ -144,3 +160,9 @@ def calcBookDimensions(ctx, width, height):
     module_height = bw.module_height
     width_fac = bw.book_width_fac
     height_fac = bw.book_height_fac
+
+    x = 1 + random.uniform(-0.5, 0.7) * width_fac
+    y = 1
+    z = 1
+
+    return (x, y, z)
