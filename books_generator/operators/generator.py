@@ -70,8 +70,26 @@ def genBookGroups(ctx, collection):
             # bpy.ops.object.add_named(linked = False, name = book.name)
             # copy = bpy.context.active_object
             # copy.location = (obj['x'], 0, obj['y'])
-            copy = genObj(ctx, book, obj)
-            bpy.data.collections['Bookshelf'].objects.link(copy)
+
+            fillShelf(ctx, obj)
+            previous = None
+            shelf_room = True
+            while shelf_room:
+                if previous == None:
+                    copy = genObj(ctx, book, obj)
+                    previous = copy
+                    copy.location = (obj['x'], 0, obj['y'])
+                else:
+                    copy = genObj(ctx, book, obj)
+                    copy.location = ((obj['x'] + previous.scale[0]), 0, obj['y'])
+                    previous = copy
+                
+                if (obj['x'] + previous.scale[0]) > bw.module_width:
+                    shelf_room = False
+                print((obj['x'] + previous.scale[0]))
+                print(bw.module_width)
+
+                bpy.data.collections['Bookshelf'].objects.link(copy)
     
     # Remove dupes from starting collection
     bpy.ops.collection.objects_remove(collection = bw.books_collection)
@@ -131,6 +149,9 @@ def genObj(ctx, base, obj):
     copy.scale[2] = scaling[2]
     
     return copy
+
+def fillShelf(ctx, obj):
+    pass
 
 ########################################
 # Math Helpers
