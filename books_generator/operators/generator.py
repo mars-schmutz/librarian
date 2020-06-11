@@ -71,25 +71,8 @@ def genBookGroups(ctx, collection):
             # copy = bpy.context.active_object
             # copy.location = (obj['x'], 0, obj['y'])
 
-            fillShelf(ctx, obj)
-            previous = None
-            shelf_room = True
-            while shelf_room:
-                if previous == None:
-                    copy = genObj(ctx, book, obj)
-                    previous = copy
-                    copy.location = (obj['x'], 0, obj['y'])
-                else:
-                    copy = genObj(ctx, book, obj)
-                    copy.location = ((obj['x'] + previous.scale[0]), 0, obj['y'])
-                    previous = copy
-                
-                if (obj['x'] + previous.scale[0]) > bw.module_width:
-                    shelf_room = False
-                print((obj['x'] + previous.scale[0]))
-                print(bw.module_width)
-
-                bpy.data.collections['Bookshelf'].objects.link(copy)
+            fillModule(ctx, book, obj)
+            # bpy.data.collections['Bookshelf'].objects.link(copy)
     
     # Remove dupes from starting collection
     bpy.ops.collection.objects_remove(collection = bw.books_collection)
@@ -142,16 +125,33 @@ def genObj(ctx, base, obj):
     # Set coords
     copy.location = (obj['x'], 0, obj['y'])
 
-    # Set scale
+    # Set and apply scale
     scaling = calcBookDimensions(ctx)
     copy.scale[0] = scaling[0]
     copy.scale[1] = scaling[1]
     copy.scale[2] = scaling[2]
+    bpy.ops.object.transform_apply(location = False, scale = True, rotation = False)
     
     return copy
 
-def fillShelf(ctx, obj):
-    pass
+def fillModule(ctx, book, obj):
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    module_width = bw.module_width
+    combined_width = 0
+    previous_width = 0
+    shelf_space = True
+
+    while shelf_space:
+        if combined_width < module_width:
+            copy = genObj(ctx, book, obj)
+            copy.location = ((obj['x'] + ((previous_width / 2) + (copy.dimensions.x / 2)) + combined_width), 0, obj['y'])
+            combined_width += copy.dimensions.x + 0.008
+            bpy.data.collections['Bookshelf'].objects.link(copy)
+            print('Combined Width: {0}'.format(combined_width))
+        else:
+            shelf_space = False
 
 ########################################
 # Math Helpers
@@ -187,3 +187,10 @@ def calcBookDimensions(ctx):
     z = 1 + random.uniform(-0.3, 0.6) * height_fac
 
     return (x, y, z)
+
+def calcDimensions(ctx, obj):
+    pass
+
+def calcBooksPerModule(ctx):
+    scene = ctx.scene
+    bw = scene.booksgen

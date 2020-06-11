@@ -105,16 +105,16 @@ class BWProperties(PropertyGroup):
 
     # Library Grid rows and columns and width of each
     shelf_rows: IntProperty(
-        name = "Rows",
-        description = "Number of rows for library grid generation",
+        name = "Columns",
+        description = "Number of columns for library grid generation",
         min = 0,
         max = 50,
         default = 3,
     )
 
     shelf_columns: IntProperty(
-        name = "Columns",
-        description = "Number of columns for library grid generation",
+        name = "Rows",
+        description = "Number of rows for library grid generation",
         min = 0,
         max = 50,
         default = 3,
