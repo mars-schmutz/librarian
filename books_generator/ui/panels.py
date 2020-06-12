@@ -3,37 +3,6 @@ from bpy.props import *
 from bpy.types import (Panel, Menu, Operator, PropertyGroup, UIList)
 import bpy.types
 
-class OBJECT_PT_LayoutTest(Panel):
-    bl_idname = "object.book_wizard_layout_test"
-    bl_label = "Example Layout Test"
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
-    bl_category = "Book Wizard"
-
-    def draw(self, ctx):
-        layout = self.layout
-        scene = ctx.scene
-        bw = scene.booksgen
-        obj = ctx.object
-
-        row = layout.row()
-        row.label(text="Hello world!", icon='WORLD_DATA')
-
-        row = layout.row()
-        row.label(text="Active object is: " + obj.name)
-        row = layout.row()
-        row.prop(obj, "name")
-
-        row = layout.row()
-        row.operator("mesh.primitive_cube_add")
-
-        box = layout.box()
-        box.label(text="Selection Tools")
-        box.operator("object.select_all").action = 'TOGGLE'
-        row = box.row()
-        row.operator("object.select_all").action = 'INVERT'
-        row.operator("object.select_random")
-
 class OBJECT_PT_BooksGenerator(Panel):
     bl_idname = "object.book_wizard_PT_booksgen"
     bl_label = "Book Generator"

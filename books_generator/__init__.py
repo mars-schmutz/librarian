@@ -169,6 +169,14 @@ class BWProperties(PropertyGroup):
         default = 0
     )
 
+    book_rotY_fac: FloatProperty(
+        name = "Rotation: Y Variation",
+        description = "Variably adjust the rotation of each book on the Y axis",
+        min = 0,
+        max = 2,
+        default = 0
+    )
+
 # Registration
 classes = (
 
