@@ -40,7 +40,6 @@ from bpy.types import (Panel,Menu,Operator,PropertyGroup)
 
 from . ui.panels import OBJECT_PT_BooksGenerator
 from . ui.panels import OBJECT_PT_BooksList
-from . ui.panels import OBJECT_PT_LayoutTest
 
 from . operators.generator import BW_OT_Generate
 
@@ -187,7 +186,6 @@ classes = (
     BW_OT_Generate,
 
     # Panels
-    # OBJECT_LayoutTest,
     OBJECT_PT_BooksGenerator,
     OBJECT_PT_BooksList,
 )

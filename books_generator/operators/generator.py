@@ -55,8 +55,13 @@ def genBookGroups(ctx, booksCollection):
         bookshelf = bpy.data.collections.new('Bookshelf')
         bpy.context.scene.collection.children.link(bookshelf)
 
-    arr = genModuleArray(ctx)
-    print(arr)
+    if bw.gen_type == 'SINGLE':
+        arr = [[{'x':0, 'y':0}]]
+    elif bw.gen_type == 'LIBRARY' and bw.library_gen_type == 'GRID':
+        arr = genModuleArray(ctx)
+        # print(arr)
+    else:
+        print('Mode not supported yet')
 
     for row in arr:
         for obj in row:

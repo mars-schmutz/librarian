@@ -29,7 +29,6 @@ class OBJECT_PT_BooksGenerator(Panel):
             if bw.library_gen_type == 'GRID':
                 box = layout.box()
                 box.label(text = 'Grid Settings')
-                box.prop(bw, "books_limit")
 
                 row = box.row()
                 row.prop(bw, "shelf_rows")
@@ -38,10 +37,6 @@ class OBJECT_PT_BooksGenerator(Panel):
                 row = box.row()
                 row.prop(bw, 'shelf_row_width')
                 row.prop(bw, 'shelf_column_width')
-
-                row = box.row()
-                row.prop(bw, 'module_width')
-                row.prop(bw, 'module_height')
             
             elif bw.library_gen_type == 'OBJECT':
                 layout.label(text = 'Work on object gen type')
@@ -49,13 +44,27 @@ class OBJECT_PT_BooksGenerator(Panel):
         elif bw.gen_type == 'SINGLE':
             layout.label(text = "Work on single gen")
         
+        # General settings for all gen_types
+        box = layout.box()
+        box.label(text = 'General Settings')
+        row = box.row()
+        box.prop(bw, "books_limit")
+        row = box.row()
+        row.prop(bw, 'module_width')
+        row.prop(bw, 'module_height')
+
         # Settings for variations in scaling
         box = layout.box()
-        box.label(text = 'Group Settings')
-
+        box.label(text = 'Scaling Settings')
         row = box.row()
         row.prop(bw, "book_width_fac")
         row.prop(bw, "book_height_fac")
+
+        # Settings for variations in rotation
+        box = layout.box()
+        box.label(text = 'Rotation Settings')
+        row = box.row()
+        row.prop(bw, "book_rotY_fac")
 
 class OBJECT_PT_BooksList(Panel):
     bl_idname = "object.book_wizard_PT_bookslist"
