@@ -29,18 +29,14 @@ class BW_OT_Generate(bpy.types.Operator):
             self.report({'ERROR'}, 'Select the books collection.')
             return { 'CANCELLED' }
         else:
-        #    for i in booksCollection.all_objects:
-                # self.report({'INFO'}, i.name)
-                # bpy.context.view_layer.objects.active = bpy.data.objects[i.name]
+            # I don't even know why this is needed, but it is
+            for obj in bpy.context.selected_objects:
+                obj.select_set(False)
 
-                # I don't even know why this is needed, but it is
-                for obj in bpy.context.selected_objects:
-                    obj.select_set(False)
-
-                if not self.regen:
-                    genBookGroups(ctx, booksCollection)
-                else:
-                    regenerateBookGroups(ctx, booksCollection)
+            if not self.regen:
+                genBookGroups(ctx, booksCollection)
+            else:
+                regenerateBookGroups(ctx, booksCollection)
                 
         return { 'FINISHED' }
 
@@ -59,9 +55,6 @@ def genBookGroups(ctx, booksCollection):
         bookshelf = bpy.data.collections.new('Bookshelf')
         bpy.context.scene.collection.children.link(bookshelf)
 
-    # Get object from book collection
-    # book = collection[0]
-
     arr = genModuleArray(ctx)
     print(arr)
 
@@ -73,8 +66,6 @@ def genBookGroups(ctx, booksCollection):
 
             fillModule(ctx, booksCollection, obj)
             # bpy.data.collections['Bookshelf'].objects.link(copy)
-    
-    # Remove dupes from starting collection
 
 def genModuleArray(ctx):
     scene = ctx.scene
@@ -117,7 +108,6 @@ def genObj(ctx, booksCollection, obj):
     while rNum == 0:
         rNum = random.randint(0, len(booksCollection.all_objects))
     base = booksCollection.all_objects[rNum - 1]
-    print(rNum - 1)
 
     # bpy.ops.mesh.primitive_cube_add()
     bpy.ops.object.add_named(linked = False, name = base.name)
@@ -140,6 +130,7 @@ def genObj(ctx, booksCollection, obj):
     copy.scale[2] = scaling[2]
     bpy.ops.object.transform_apply(location = False, scale = True, rotation = False)
 
+    # Remove dupes from starting collection
     bpy.ops.collection.objects_remove(collection = bw.books_collection)
     
     return copy
