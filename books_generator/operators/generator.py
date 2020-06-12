@@ -138,11 +138,14 @@ def fillModule(ctx, booksCollection, obj):
     combined_width = 0
     previous_width = 0
     shelf_space = True
+    rot = calcRotation(ctx)
 
     while shelf_space:
         if combined_width < module_width:
             copy = genObj(ctx, booksCollection, obj)
             copy.location = ((obj['x'] + ((previous_width / 2) + (copy.dimensions.x / 2)) + combined_width), 0, obj['y'])
+            copy.rotation_mode = 'XYZ'
+            copy.rotation_euler = (rot[0], rot[1], rot[2])
             combined_width += copy.dimensions.x + 0.008
             bpy.data.collections['Bookshelf'].objects.link(copy)
         else:
@@ -180,5 +183,17 @@ def calcBookDimensions(ctx):
     x = 1 + random.uniform(-0.7, 0.8) * width_fac
     y = 1
     z = 1 + random.uniform(-0.3, 0.6) * height_fac
+
+    return (x, y, z)
+
+def calcRotation(ctx):
+    scene = ctx.scene
+    bw = scene.booksgen
+
+    rot_y = bw.book_rotY_fac
+
+    x = 0
+    y = random.uniform(-0.7, 0.7) * rot_y
+    z = 0
 
     return (x, y, z)

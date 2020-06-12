@@ -28,7 +28,7 @@ class OBJECT_PT_BooksGenerator(Panel):
             # Determine UI view based on library_gen_type value
             if bw.library_gen_type == 'GRID':
                 box = layout.box()
-                box.label(text = 'Grid Settings')
+                box.label(text = 'Grid Settings', icon = "SETTINGS")
 
                 row = box.row()
                 row.prop(bw, "shelf_rows")
@@ -42,7 +42,7 @@ class OBJECT_PT_BooksGenerator(Panel):
                 layout.label(text = 'Work on object gen type')
         
         elif bw.gen_type == 'SINGLE':
-            layout.label(text = "Work on single gen")
+            layout.label(text = "Single Shelf Settings", icon = "SETTINGS")
         
         # General settings for all gen_types
         box = layout.box()

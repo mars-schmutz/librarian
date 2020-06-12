@@ -21,7 +21,7 @@
 
 bl_info = {
     "name": "Book Generator",
-    "author": "Updated by Mersh, originally by Lell, Anfeo",
+    "author": "Mersh",
     "version": (0, 0, 1),
     "blender": (2, 80, 0),
     "location": "3D View",
@@ -169,10 +169,10 @@ class BWProperties(PropertyGroup):
     )
 
     book_rotY_fac: FloatProperty(
-        name = "Rotation: Y Variation",
+        name = "Y Variation",
         description = "Variably adjust the rotation of each book on the Y axis",
-        min = 0,
-        max = 2,
+        min = -1,
+        max = 1,
         default = 0
     )
 
