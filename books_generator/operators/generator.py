@@ -60,12 +60,22 @@ def genBookGroups(ctx, booksCollection):
 
     for row in arr:
         for obj in row:
-            # bpy.ops.object.add_named(linked = False, name = book.name)
-            # copy = bpy.context.active_object
-            # copy.location = (obj['x'], 0, obj['y'])
-
             fillModule(ctx, booksCollection, obj)
             # bpy.data.collections['Bookshelf'].objects.link(copy)
+
+def regenerateBookGroups(ctx, collection):
+    # Get collection
+    bookshelf = bpy.data.collections['Bookshelf']
+
+    for i in bookshelf.all_objects:
+        i.select_set(True)
+    bpy.ops.object.delete()
+
+    genBookGroups(ctx, collection)
+
+########################################
+# Object Helpers
+########################################
 
 def genModuleArray(ctx):
     scene = ctx.scene
@@ -79,37 +89,17 @@ def genModuleArray(ctx):
     
     return(moduleArr)
 
-def regenerateBookGroups(ctx, collection):
-    # Get collection
-    bookshelf = bpy.data.collections['Bookshelf']
-
-    # make sure nothing gets accidentally added to the selection set to be deleted
-    # bpy.context.scene.objects.active = None
-
-    for i in bookshelf.all_objects:
-        i.select_set(True)
-    bpy.ops.object.delete()
-
-    genBookGroups(ctx, collection)
-
-########################################
-# Object Helpers
-########################################
-
 def genObj(ctx, booksCollection, obj):
     # Base generator for each book object
     scene = ctx.scene
     bw = scene.booksgen
 
     # Get random book from book collection
-    # base = random.choice(booksCollection.all_objects)
-    # base = booksCollection.all_objects[0]
     rNum = random.randint(0, len(booksCollection.all_objects))
     while rNum == 0:
         rNum = random.randint(0, len(booksCollection.all_objects))
     base = booksCollection.all_objects[rNum - 1]
 
-    # bpy.ops.mesh.primitive_cube_add()
     bpy.ops.object.add_named(linked = False, name = base.name)
     copy = bpy.context.active_object
 
@@ -187,10 +177,3 @@ def calcBookDimensions(ctx):
     z = 1 + random.uniform(-0.3, 0.6) * height_fac
 
     return (x, y, z)
-
-def calcDimensions(ctx, obj):
-    pass
-
-def calcBooksPerModule(ctx):
-    scene = ctx.scene
-    bw = scene.booksgen
