@@ -38,13 +38,13 @@ class BW_OT_Generate(bpy.types.Operator):
                     obj.select_set(False)
 
                 if not self.regen:
-                    genBookGroups(ctx, booksCollection.all_objects)
+                    genBookGroups(ctx, booksCollection)
                 else:
-                    regenerateBookGroups(ctx, booksCollection.all_objects)
+                    regenerateBookGroups(ctx, booksCollection)
                 
         return { 'FINISHED' }
 
-def genBookGroups(ctx, collection):
+def genBookGroups(ctx, booksCollection):
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -60,7 +60,7 @@ def genBookGroups(ctx, collection):
         bpy.context.scene.collection.children.link(bookshelf)
 
     # Get object from book collection
-    book = collection[0]
+    # book = collection[0]
 
     arr = genModuleArray(ctx)
     print(arr)
@@ -71,11 +71,10 @@ def genBookGroups(ctx, collection):
             # copy = bpy.context.active_object
             # copy.location = (obj['x'], 0, obj['y'])
 
-            fillModule(ctx, book, obj)
+            fillModule(ctx, booksCollection, obj)
             # bpy.data.collections['Bookshelf'].objects.link(copy)
     
     # Remove dupes from starting collection
-    bpy.ops.collection.objects_remove(collection = bw.books_collection)
 
 def genModuleArray(ctx):
     scene = ctx.scene
@@ -106,10 +105,19 @@ def regenerateBookGroups(ctx, collection):
 # Object Helpers
 ########################################
 
-def genObj(ctx, base, obj):
+def genObj(ctx, booksCollection, obj):
     # Base generator for each book object
     scene = ctx.scene
     bw = scene.booksgen
+
+    # Get random book from book collection
+    # base = random.choice(booksCollection.all_objects)
+    # base = booksCollection.all_objects[0]
+    rNum = random.randint(0, len(booksCollection.all_objects))
+    while rNum == 0:
+        rNum = random.randint(0, len(booksCollection.all_objects))
+    base = booksCollection.all_objects[rNum - 1]
+    print(rNum - 1)
 
     # bpy.ops.mesh.primitive_cube_add()
     bpy.ops.object.add_named(linked = False, name = base.name)
@@ -131,10 +139,12 @@ def genObj(ctx, base, obj):
     copy.scale[1] = scaling[1]
     copy.scale[2] = scaling[2]
     bpy.ops.object.transform_apply(location = False, scale = True, rotation = False)
+
+    bpy.ops.collection.objects_remove(collection = bw.books_collection)
     
     return copy
 
-def fillModule(ctx, book, obj):
+def fillModule(ctx, booksCollection, obj):
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -145,11 +155,10 @@ def fillModule(ctx, book, obj):
 
     while shelf_space:
         if combined_width < module_width:
-            copy = genObj(ctx, book, obj)
+            copy = genObj(ctx, booksCollection, obj)
             copy.location = ((obj['x'] + ((previous_width / 2) + (copy.dimensions.x / 2)) + combined_width), 0, obj['y'])
             combined_width += copy.dimensions.x + 0.008
             bpy.data.collections['Bookshelf'].objects.link(copy)
-            print('Combined Width: {0}'.format(combined_width))
         else:
             shelf_space = False
 
