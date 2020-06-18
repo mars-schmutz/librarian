@@ -43,7 +43,7 @@ class OBJECT_PT_BooksGenerator(Panel):
         
         elif bw.gen_type == 'SINGLE':
             layout.label(text = "Single Shelf Settings", icon = "SETTINGS")
-        
+
         # General settings for all gen_types
         box = layout.box()
         box.label(text = 'General Settings')

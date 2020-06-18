@@ -4,6 +4,7 @@ from bpy.props import *
 from bpy.types import (Panel, Menu, Operator, PropertyGroup)
 
 import random
+import time
 
 class BW_OT_Generate(bpy.types.Operator):
     bl_idname = "object.bw_generate"
@@ -33,10 +34,12 @@ class BW_OT_Generate(bpy.types.Operator):
             for obj in bpy.context.selected_objects:
                 obj.select_set(False)
 
+            tStart = time.time()
             if not self.regen:
                 genBookGroups(ctx, booksCollection)
             else:
                 regenerateBookGroups(ctx, booksCollection)
+            print("Generation time: {0}s".format(time.time() - tStart))
                 
         return { 'FINISHED' }
 
@@ -62,7 +65,7 @@ def genBookGroups(ctx, booksCollection):
         # print(arr)
     else:
         print('Mode not supported yet')
-
+    
     for row in arr:
         for obj in row:
             fillModule(ctx, booksCollection, obj)
@@ -127,7 +130,7 @@ def genObj(ctx, booksCollection, obj):
 
     # Remove dupes from starting collection
     bpy.ops.collection.objects_remove(collection = bw.books_collection)
-    
+
     return copy
 
 def fillModule(ctx, booksCollection, obj):
@@ -143,7 +146,11 @@ def fillModule(ctx, booksCollection, obj):
     while shelf_space:
         if combined_width < module_width:
             copy = genObj(ctx, booksCollection, obj)
-            copy.location = ((obj['x'] + ((previous_width / 2) + (copy.dimensions.x / 2)) + combined_width), 0, obj['y'])
+            copy.location = (
+                ((obj['x'] + ((previous_width / 2) + (copy.dimensions.x / 2)) + combined_width)) + rot[0],
+                0 + rot[1],
+                obj['y'] + rot[2]
+            )
             copy.rotation_mode = 'XYZ'
             copy.rotation_euler = (rot[0], rot[1], rot[2])
             combined_width += copy.dimensions.x + 0.008
@@ -157,6 +164,8 @@ def fillModule(ctx, booksCollection, obj):
 
 def calcModuleCoords(ctx, x, y):
     # Calculate the starting coordinates for each module
+    # Y is actually Z
+    # Look, I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -175,8 +184,6 @@ def calcBookDimensions(ctx):
     scene = ctx.scene
     bw = scene.booksgen
 
-    module_width = bw.module_width
-    module_height = bw.module_height
     width_fac = bw.book_width_fac
     height_fac = bw.book_height_fac
 
