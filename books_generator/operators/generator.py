@@ -129,7 +129,7 @@ def genObj(ctx, booksCollection, obj):
     bpy.ops.object.transform_apply(location = False, scale = True, rotation = False)
 
     # Remove dupes from starting collection
-    bpy.ops.collection.objects_remove(collection = bw.books_collection)
+    # bpy.ops.collection.objects_remove(collection = bw.books_collection)
 
     return copy
 
@@ -154,6 +154,9 @@ def fillModule(ctx, booksCollection, obj):
             copy.rotation_mode = 'XYZ'
             copy.rotation_euler = (rot[0], rot[1], rot[2])
             combined_width += copy.dimensions.x + 0.008
+
+            # Move new copy from starting collection to our new collection
+            bpy.data.collections[bw.books_collection].objects.unlink(copy)
             bpy.data.collections['Bookshelf'].objects.link(copy)
         else:
             shelf_space = False
