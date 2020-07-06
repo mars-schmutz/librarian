@@ -39,7 +39,10 @@ class OBJECT_PT_BooksGenerator(Panel):
                 row.prop(bw, 'shelf_column_width')
             
             elif bw.library_gen_type == 'OBJECT':
-                layout.label(text = 'Work on object gen type')
+                box = layout.box()
+                box.label(text = "Object Settings", icon = "SETTINGS")
+                
+                row = box.row()
         
         elif bw.gen_type == 'SINGLE':
             layout.label(text = "Single Shelf Settings", icon = "SETTINGS")

@@ -63,6 +63,8 @@ def genBookGroups(ctx, booksCollection):
     elif bw.gen_type == 'LIBRARY' and bw.library_gen_type == 'GRID':
         arr = genModuleArray(ctx)
         # print(arr)
+    elif bw.gen_type == "OBJECT":
+        arr = genObjArray(ctx)
     else:
         print('Mode not supported yet')
     
@@ -86,6 +88,7 @@ def regenerateBookGroups(ctx, collection):
 ########################################
 
 def genModuleArray(ctx):
+    # Generation for MODULE type
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -97,8 +100,12 @@ def genModuleArray(ctx):
     
     return(moduleArr)
 
+def genObjArray(ctx):
+    # Generation for the OBJECT type
+    pass
+
 def genObj(ctx, booksCollection, obj):
-    # Base generator for each book object
+    # Base generator for each book object for the MODULE gen settings
     scene = ctx.scene
     bw = scene.booksgen
 
@@ -167,7 +174,7 @@ def fillModule(ctx, booksCollection, obj):
 
 def calcModuleCoords(ctx, x, y):
     # Calculate the starting coordinates for each module
-    # Y is actually Z
+    # The Y coordinate here is equivalent to the Z coordinate in Blender's API
     # Look, I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
     scene = ctx.scene
     bw = scene.booksgen
