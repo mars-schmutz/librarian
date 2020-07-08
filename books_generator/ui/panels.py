@@ -43,6 +43,7 @@ class OBJECT_PT_BooksGenerator(Panel):
                 box.label(text = "Object Settings", icon = "SETTINGS")
                 
                 row = box.row()
+                row.prop_search(bw, "library_object", bpy.data, "objects")
         
         elif bw.gen_type == 'SINGLE':
             layout.label(text = "Single Shelf Settings", icon = "SETTINGS")

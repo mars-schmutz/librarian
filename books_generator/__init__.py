@@ -83,6 +83,13 @@ class BWProperties(PropertyGroup):
         default = "None",
     )
 
+    # gen_type: Object settings
+    library_object: StringProperty(
+        name = "Library Object",
+        description = "Object to act as the library shelf",
+        default = "None",
+    )
+
     # gen_type: Library settings
     library_gen_type: EnumProperty(
         name = "Library Gen Type",
