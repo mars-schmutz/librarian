@@ -38,13 +38,13 @@ from mathutils import Vector, Matrix
 from bpy.props import *
 from bpy.types import (Panel,Menu,Operator,PropertyGroup)
 
-from . ui.panels import OBJECT_PT_BooksGenerator
-from . ui.panels import OBJECT_PT_BooksList
+from . ui.panels import LIBR_PT_BooksGenerator
+from . ui.panels import LIBR_PT_BooksList
 
-from . operators.generator import BW_OT_Generate
+from . operators.generator import LIBR_OT_Generate
 
 # Global addon properties
-class BWProperties(PropertyGroup):
+class LIBRProperties(PropertyGroup):
 
     # General settings
     initial_gen: BoolProperty(
@@ -187,14 +187,14 @@ class BWProperties(PropertyGroup):
 classes = (
 
     # Properties group
-    BWProperties,
+    LIBRProperties,
 
     # Operators
-    BW_OT_Generate,
+    LIBR_OT_Generate,
 
     # Panels
-    OBJECT_PT_BooksGenerator,
-    OBJECT_PT_BooksList,
+    LIBR_PT_BooksGenerator,
+    LIBR_PT_BooksList,
 )
 
 def register():
@@ -202,7 +202,7 @@ def register():
     for c in classes:
         register_class(c)
     
-    bpy.types.Scene.booksgen = PointerProperty(type = BWProperties)
+    bpy.types.Scene.booksgen = PointerProperty(type = LIBRProperties)
     # bpy.types.Scene.bookslist = CollectionProperty(type = BWList)
     bpy.types.Scene.list_index = IntProperty()
 

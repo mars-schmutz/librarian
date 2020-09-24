@@ -6,8 +6,8 @@ from bpy.types import (Panel, Menu, Operator, PropertyGroup)
 import random
 import time
 
-class BW_OT_Generate(bpy.types.Operator):
-    bl_idname = "object.bw_generate"
+class LIBR_OT_Generate(bpy.types.Operator):
+    bl_idname = "libr.generate"
     bl_label = "Generate"
     bl_description = "Generate books based on settings"
     bl_options = { 'REGISTER', 'UNDO' }

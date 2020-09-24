@@ -3,20 +3,20 @@ from bpy.props import *
 from bpy.types import (Panel, Menu, Operator, PropertyGroup, UIList)
 import bpy.types
 
-class OBJECT_PT_BooksGenerator(Panel):
-    bl_idname = "object.book_wizard_PT_booksgen"
+class LIBR_PT_BooksGenerator(Panel):
+    bl_idname = "LIBRARIAN_PT_booksgen"
     bl_label = "Book Generator"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = "Book Wizard"
+    bl_category = "Librarian"
 
     def draw(self, ctx):
         layout = self.layout
         scene = ctx.scene
         bw = scene.booksgen
 
-        layout.operator('object.bw_generate', text = 'Generate').regen = False
-        layout.operator('object.bw_generate', text = 'Regenerate').regen = True
+        layout.operator('libr.generate', text = 'Generate').regen = False
+        layout.operator('libr.generate', text = 'Regenerate').regen = True
 
         layout.prop(bw, "gen_seed")
         layout.prop(bw, "gen_type", expand = True)
@@ -70,12 +70,12 @@ class OBJECT_PT_BooksGenerator(Panel):
         row = box.row()
         row.prop(bw, "book_rotY_fac")
 
-class OBJECT_PT_BooksList(Panel):
-    bl_idname = "object.book_wizard_PT_bookslist"
+class LIBR_PT_BooksList(Panel):
+    bl_idname = "LIBR_PT_bookslist"
     bl_label = "Book List"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = "Book Wizard"
+    bl_category = "Librarian"
 
     def draw(self, ctx):
         layout = self.layout
