@@ -16,9 +16,9 @@ class LIBR_OT_Generate(bpy.types.Operator):
 
     def execute(self, ctx):
         scene = ctx.scene
-        bw = scene.booksgen
+        libr = scene.booksgen
 
-        collection_name = bw.books_collection
+        collection_name = libr.books_collection
         try:
             booksCollection = bpy.data.collections[collection_name]
         except:
@@ -45,12 +45,12 @@ class LIBR_OT_Generate(bpy.types.Operator):
 
 def genBookGroups(ctx, booksCollection):
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
-    cols = bw.shelf_columns
-    rows = bw.shelf_rows
-    col_gap = bw.shelf_column_width
-    row_gap = bw.shelf_row_width
+    cols = libr.shelf_columns
+    rows = libr.shelf_rows
+    col_gap = libr.shelf_column_width
+    row_gap = libr.shelf_row_width
 
     try:
         bookshelf = bpy.data.collections['Bookshelf']
@@ -58,12 +58,12 @@ def genBookGroups(ctx, booksCollection):
         bookshelf = bpy.data.collections.new('Bookshelf')
         bpy.context.scene.collection.children.link(bookshelf)
 
-    if bw.gen_type == 'SINGLE':
+    if libr.gen_type == 'SINGLE':
         arr = [[{'x':0, 'y':0}]]
-    elif bw.gen_type == 'LIBRARY' and bw.library_gen_type == 'GRID':
+    elif libr.gen_type == 'LIBRARY' and libr.library_gen_type == 'GRID':
         arr = genModuleArray(ctx)
         # print(arr)
-    elif bw.gen_type == "OBJECT":
+    elif libr.gen_type == "OBJECT":
         arr = genObjArray(ctx)
     else:
         print('Mode not supported yet')
@@ -90,12 +90,12 @@ def regenerateBookGroups(ctx, collection):
 def genModuleArray(ctx):
     # Generation for MODULE type
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
     moduleArr = []
-    for x in range(bw.shelf_rows):
+    for x in range(libr.shelf_rows):
         moduleArr.append([])
-        for y in range(bw.shelf_columns):
+        for y in range(libr.shelf_columns):
             moduleArr[x].append(calcModuleCoords(ctx, x, y))
     
     return(moduleArr)
@@ -107,7 +107,7 @@ def genObjArray(ctx):
 def genObj(ctx, booksCollection, obj):
     # Base generator for each book object for the MODULE gen settings
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
     # Get random book from book collection
     rNum = random.randint(0, len(booksCollection.all_objects))
@@ -118,7 +118,7 @@ def genObj(ctx, booksCollection, obj):
     bpy.ops.object.add_named(linked = False, name = base.name)
     copy = bpy.context.active_object
 
-    if bw.linked_copies:
+    if libr.linked_copies:
         copy.data = base.data
     else:
         old = copy.data.name
@@ -142,9 +142,9 @@ def genObj(ctx, booksCollection, obj):
 
 def fillModule(ctx, booksCollection, obj):
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
-    module_width = bw.module_width
+    module_width = libr.module_width
     combined_width = 0
     previous_width = 0
     shelf_space = True
@@ -163,7 +163,7 @@ def fillModule(ctx, booksCollection, obj):
             combined_width += copy.dimensions.x + 0.008
 
             # Move new copy from starting collection to our new collection
-            bpy.data.collections[bw.books_collection].objects.unlink(copy)
+            bpy.data.collections[libr.books_collection].objects.unlink(copy)
             bpy.data.collections['Bookshelf'].objects.link(copy)
         else:
             shelf_space = False
@@ -177,12 +177,12 @@ def calcModuleCoords(ctx, x, y):
     # The Y coordinate here is equivalent to the Z coordinate in Blender's API
     # Look, I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
-    row_gap = bw.shelf_row_width
-    col_gap = bw.shelf_column_width
-    module_width = bw.module_width
-    module_height = bw.module_height
+    row_gap = libr.shelf_row_width
+    col_gap = libr.shelf_column_width
+    module_width = libr.module_width
+    module_height = libr.module_height
 
     posX = x * (module_width + col_gap)
     posY = y * (module_height + row_gap)
@@ -192,10 +192,10 @@ def calcModuleCoords(ctx, x, y):
 def calcBookDimensions(ctx):
     # Calculate the book dimensions based on the scaling variable
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
-    width_fac = bw.book_width_fac
-    height_fac = bw.book_height_fac
+    width_fac = libr.book_width_fac
+    height_fac = libr.book_height_fac
 
     x = 1 + random.uniform(-0.7, 0.8) * width_fac
     y = 1

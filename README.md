@@ -1,10 +1,10 @@
-# Book Wizard
+# Librarian
 
-Book Wizard is a Blender addon to easily generate a library-like collection of book objects.
+Librarian is a Blender addon to easily generate a library-like collection of book objects.
 
 ## Installation
 
-To install Book Wizard, go to Blender Preferences > Addons > Install and select the .zip file.
+To install Librarian, go to Blender Preferences > Addons > Install and select the .zip file.
 
 ## Features
 
