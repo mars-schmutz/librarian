@@ -205,9 +205,9 @@ def calcBookDimensions(ctx):
 
 def calcRotation(ctx):
     scene = ctx.scene
-    bw = scene.booksgen
+    libr = scene.booksgen
 
-    rot_y = bw.book_rotY_fac
+    rot_y = libr.book_rotY_fac
 
     x = 0
     y = random.uniform(-0.7, 0.7) * rot_y
