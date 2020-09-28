@@ -13,62 +13,62 @@ class LIBR_PT_BooksGenerator(Panel):
     def draw(self, ctx):
         layout = self.layout
         scene = ctx.scene
-        bw = scene.booksgen
+        libr = scene.library
 
         layout.operator('libr.generate', text = 'Generate').regen = False
         layout.operator('libr.generate', text = 'Regenerate').regen = True
 
-        layout.prop(bw, "gen_seed")
-        layout.prop(bw, "gen_type", expand = True)
+        layout.prop(libr, "gen_seed")
+        layout.prop(libr, "gen_type", expand = True)
 
         # Determine UI view based on gen_type value
-        if bw.gen_type == "LIBRARY":
-            layout.prop(bw, "library_gen_type", expand = True)
+        if libr.gen_type == "LIBRARY":
+            layout.prop(libr, "library_gen_type", expand = True)
 
             # Determine UI view based on library_gen_type value
-            if bw.library_gen_type == 'GRID':
+            if libr.library_gen_type == 'GRID':
                 box = layout.box()
                 box.label(text = 'Grid Settings', icon = "SETTINGS")
 
                 row = box.row()
-                row.prop(bw, "shelf_rows")
-                row.prop(bw, "shelf_columns")
+                row.prop(libr, "shelf_rows")
+                row.prop(libr, "shelf_columns")
 
                 row = box.row()
-                row.prop(bw, 'shelf_row_width')
-                row.prop(bw, 'shelf_column_width')
+                row.prop(libr, 'shelf_row_width')
+                row.prop(libr, 'shelf_column_width')
             
-            elif bw.library_gen_type == 'OBJECT':
+            elif libr.library_gen_type == 'OBJECT':
                 box = layout.box()
                 box.label(text = "Object Settings", icon = "SETTINGS")
                 
                 row = box.row()
-                row.prop_search(bw, "library_object", bpy.data, "objects")
+                row.prop_search(libr, "library_object", bpy.data, "objects")
         
-        elif bw.gen_type == 'SINGLE':
+        elif libr.gen_type == 'SINGLE':
             layout.label(text = "Single Shelf Settings", icon = "SETTINGS")
 
         # General settings for all gen_types
         box = layout.box()
         box.label(text = 'General Settings')
         row = box.row()
-        box.prop(bw, "books_limit")
+        box.prop(libr, "books_limit")
         row = box.row()
-        row.prop(bw, 'module_width')
-        row.prop(bw, 'module_height')
+        row.prop(libr, 'module_width')
+        row.prop(libr, 'module_height')
 
         # Settings for variations in scaling
         box = layout.box()
         box.label(text = 'Scaling Settings')
         row = box.row()
-        row.prop(bw, "book_width_fac")
-        row.prop(bw, "book_height_fac")
+        row.prop(libr, "book_width_fac")
+        row.prop(libr, "book_height_fac")
 
         # Settings for variations in rotation
         box = layout.box()
         box.label(text = 'Rotation Settings')
         row = box.row()
-        row.prop(bw, "book_rotY_fac")
+        row.prop(libr, "book_rotY_fac")
 
 class LIBR_PT_BooksList(Panel):
     bl_idname = "LIBR_PT_bookslist"
@@ -80,7 +80,19 @@ class LIBR_PT_BooksList(Panel):
     def draw(self, ctx):
         layout = self.layout
         scene = ctx.scene
-        bw = scene.booksgen
+        libr = scene.library
 
-        layout.prop_search(bw, 'books_collection', bpy.data, 'collections')
-        layout.prop(bw, 'linked_copies')
+        layout.prop_search(libr, 'books_collection', bpy.data, 'collections')
+        layout.prop(libr, 'linked_copies')
+
+class LIBR_PT_Covers(Panel):
+    bl_idname = "LIBR_PT_covers"
+    bl_label = "Covers"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "Librarian"
+
+    def draw(self, ctx):
+        layout = self.layout
+        scene = ctx.scene
+        libr = scene.library

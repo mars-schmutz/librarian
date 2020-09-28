@@ -202,7 +202,7 @@ def register():
     for c in classes:
         register_class(c)
     
-    bpy.types.Scene.booksgen = PointerProperty(type = LIBRProperties)
+    bpy.types.Scene.library = PointerProperty(type = LIBRProperties)
     # bpy.types.Scene.bookslist = CollectionProperty(type = BWList)
     bpy.types.Scene.list_index = IntProperty()
 
