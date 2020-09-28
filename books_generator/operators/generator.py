@@ -16,7 +16,7 @@ class LIBR_OT_Generate(bpy.types.Operator):
 
     def execute(self, ctx):
         scene = ctx.scene
-        libr = scene.booksgen
+        libr = scene.library
 
         collection_name = libr.books_collection
         try:
@@ -45,7 +45,7 @@ class LIBR_OT_Generate(bpy.types.Operator):
 
 def genBookGroups(ctx, booksCollection):
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     cols = libr.shelf_columns
     rows = libr.shelf_rows
@@ -90,7 +90,7 @@ def regenerateBookGroups(ctx, collection):
 def genModuleArray(ctx):
     # Generation for MODULE type
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     moduleArr = []
     for x in range(libr.shelf_rows):
@@ -107,7 +107,7 @@ def genObjArray(ctx):
 def genObj(ctx, booksCollection, obj):
     # Base generator for each book object for the MODULE gen settings
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     # Get random book from book collection
     rNum = random.randint(0, len(booksCollection.all_objects))
@@ -142,7 +142,7 @@ def genObj(ctx, booksCollection, obj):
 
 def fillModule(ctx, booksCollection, obj):
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     module_width = libr.module_width
     combined_width = 0
@@ -177,7 +177,7 @@ def calcModuleCoords(ctx, x, y):
     # The Y coordinate here is equivalent to the Z coordinate in Blender's API
     # Look, I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     row_gap = libr.shelf_row_width
     col_gap = libr.shelf_column_width
@@ -192,7 +192,7 @@ def calcModuleCoords(ctx, x, y):
 def calcBookDimensions(ctx):
     # Calculate the book dimensions based on the scaling variable
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     width_fac = libr.book_width_fac
     height_fac = libr.book_height_fac
@@ -205,7 +205,7 @@ def calcBookDimensions(ctx):
 
 def calcRotation(ctx):
     scene = ctx.scene
-    libr = scene.booksgen
+    libr = scene.library
 
     rot_y = libr.book_rotY_fac
 
