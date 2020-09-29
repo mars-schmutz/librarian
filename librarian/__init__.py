@@ -45,9 +45,11 @@ from . import library_settings
 # Addon UI
 from . ui.panels import LIBR_PT_BooksGenerator
 from . ui.panels import LIBR_PT_BooksList
+from . ui.panels import LIBR_PT_Covers
 
 # Addon Operators
 from . operators.generator import LIBR_OT_Generate
+from . operators.generate_covers import LIBR_OT_GenerateCovers
 
 # Global addon properties
 class LIBRProperties(PropertyGroup):
@@ -73,8 +75,7 @@ class LIBRProperties(PropertyGroup):
             ("LIBRARY", "Library", "Generate a complete library"),
             ("SINGLE", "Single Shelf", "Generate a single shelf of books"),
         ),
-        description = "Determine the arrangement of books generated",
-        default = "LIBRARY",
+        description = "Determine the arrangement of books generated", default = "LIBRARY",
     )
 
     linked_copies: BoolProperty(
@@ -200,10 +201,12 @@ classes = (
 
     # Operators
     LIBR_OT_Generate,
+    LIBR_OT_GenerateCovers,
 
     # Panels
     LIBR_PT_BooksGenerator,
     LIBR_PT_BooksList,
+    LIBR_PT_Covers,
 )
 
 def register():

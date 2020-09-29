@@ -9,7 +9,7 @@ import time
 class LIBR_OT_Generate(bpy.types.Operator):
     bl_idname = "libr.generate"
     bl_label = "Generate"
-    bl_description = "Generate books based on settings"
+    bl_description = "Generate books based on settings."
     bl_options = { 'REGISTER', 'UNDO' }
 
     regen: BoolProperty(name = "Regeneration", default = False)

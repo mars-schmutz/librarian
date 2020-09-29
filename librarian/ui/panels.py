@@ -96,3 +96,5 @@ class LIBR_PT_Covers(Panel):
         layout = self.layout
         scene = ctx.scene
         libr = scene.library
+
+        layout.operator("libr.generate_covers", text = "Generate")
