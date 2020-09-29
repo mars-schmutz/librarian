@@ -4,7 +4,7 @@ Librarian is a Blender addon to easily generate a library-like collection of boo
 
 ## Installation
 
-To install Librarian, go to Blender Preferences > Addons > Install and select the .zip file.
+To install Librarian, go to Blender Preferences > Addons > Install and select the .zip file. Files are automatically unzipped by default when downloaded with Safari so try downloading through Firefox or Chrome if you have issues on Mac.
 
 ## Features
 
