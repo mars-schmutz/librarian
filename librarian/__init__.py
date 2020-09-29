@@ -20,12 +20,12 @@
 # self.report({'INFO'}, 'Printing report to Info window.')
 
 bl_info = {
-    "name": "Book Generator",
+    "name": "Librarian",
     "author": "Mersh",
     "version": (0, 0, 1),
     "blender": (2, 80, 0),
     "location": "3D View",
-    "description": "Book Wizard",
+    "description": "Easily generate shelves of books.",
     "category": "3D View"
 }
 
@@ -38,9 +38,14 @@ from mathutils import Vector, Matrix
 from bpy.props import *
 from bpy.types import (Panel,Menu,Operator,PropertyGroup)
 
+# Addon Preferences
+from . import library_settings
+
+# Addon UI
 from . ui.panels import LIBR_PT_BooksGenerator
 from . ui.panels import LIBR_PT_BooksList
 
+# Addon Operators
 from . operators.generator import LIBR_OT_Generate
 
 # Global addon properties

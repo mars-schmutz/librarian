@@ -83,7 +83,7 @@ class LIBR_PT_BooksList(Panel):
         libr = scene.library
 
         layout.prop_search(libr, 'books_collection', bpy.data, 'collections')
-        layout.prop(libr, 'linked_copies')
+        # layout.prop(libr, 'linked_copies')
 
 class LIBR_PT_Covers(Panel):
     bl_idname = "LIBR_PT_covers"
