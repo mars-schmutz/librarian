@@ -26,7 +26,7 @@ bl_info = {
     "blender": (2, 80, 0),
     "location": "3D View",
     "description": "Easily generate shelves of books.",
-    "warning": "This project is still in the early stages. Save often and please use with caution.",
+    "warning": "This project is still under development. Save often and please use with caution.",
     "category": "3D View"
 }
 

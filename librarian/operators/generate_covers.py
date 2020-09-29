@@ -16,10 +16,16 @@ class LIBR_OT_GenerateCovers(bpy.types.Operator):
         libr = scene.library
 
         # Get Blender user preferences and then find Librarian preferences
+        # print(libr_prefs.title_dir)
+
         user_prefs = ctx.preferences
         libr_prefs = user_prefs.addons["librarian"].preferences
-        print(libr_prefs.title_dir)
-        print(libr_prefs.img_dir)
-        print(libr_prefs.layout_dir)
+
+        try:
+            booksCollection = bpy.data.collections[libr.books_collection]
+        except:
+            booksCollection = None
+            self.report({'ERROR'}, 'The Librarian collection hasn\'t been generated yet.')
+            return { 'CANCELLED' }
 
         return { 'FINISHED' }
