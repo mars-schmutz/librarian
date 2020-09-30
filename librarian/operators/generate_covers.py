@@ -22,10 +22,13 @@ class LIBR_OT_GenerateCovers(bpy.types.Operator):
         libr_prefs = user_prefs.addons["librarian"].preferences
 
         try:
-            booksCollection = bpy.data.collections[libr.books_collection]
+            booksCollection = bpy.data.collections['Bookshelf']
         except:
             booksCollection = None
             self.report({'ERROR'}, 'The Librarian collection hasn\'t been generated yet.')
             return { 'CANCELLED' }
 
+        for i in booksCollection.objects:
+            raise Exception("FInish material setting")
+        
         return { 'FINISHED' }

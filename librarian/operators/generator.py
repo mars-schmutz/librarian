@@ -175,7 +175,7 @@ def fillModule(ctx, booksCollection, obj):
 def calcModuleCoords(ctx, x, y):
     # Calculate the starting coordinates for each module
     # The Y coordinate here is equivalent to the Z coordinate in Blender's API
-    # Look, I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
+    # I'm not a smart man, so my dumbass was thinking of a 2D coordinate system while working on this function
     scene = ctx.scene
     libr = scene.library
 
