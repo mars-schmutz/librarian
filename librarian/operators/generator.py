@@ -6,6 +6,10 @@ from bpy.types import (Panel, Menu, Operator, PropertyGroup)
 import random
 import time
 
+########################################
+# Operator Classes
+########################################
+
 class LIBR_OT_Generate(bpy.types.Operator):
     bl_idname = "libr.generate"
     bl_label = "Generate" 
@@ -42,6 +46,23 @@ class LIBR_OT_Generate(bpy.types.Operator):
             print("Generation time: {0}s".format(time.time() - tStart))
                 
         return { 'FINISHED' }
+
+class LIBR_OT_Import(bpy.types.Operator):
+    bl_idname = "libr.import"
+    bl_label = "Import"
+    bl_description = "Easily import prebuilt book collection from helper file."
+    bl_options = { "REGISTER", "UNDO" }
+
+    def execute(self, ctx):
+        scene = ctx.scene
+        libr = scene.library
+        user_prefs = ctx.preferences
+        libr_prefs = user_prefs.addons["librarian"].preferences
+        fName = libr_prefs.books_blend
+
+########################################
+# Object Helpers
+########################################
 
 def genBookGroups(ctx, booksCollection):
     scene = ctx.scene
@@ -83,9 +104,6 @@ def regenerateBookGroups(ctx, collection):
 
     genBookGroups(ctx, collection)
 
-########################################
-# Object Helpers
-########################################
 
 def genModuleArray(ctx):
     # Generation for MODULE type
