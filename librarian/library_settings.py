@@ -4,6 +4,13 @@ from bpy.props import StringProperty
 class LibraryPreferences(bpy.types.AddonPreferences):
     bl_idname = 'librarian'
 
+    books_blend: StringProperty(
+            name = "Books File",
+            description = "The file containing prebuilt book models. This should have been included in the addon download.",
+            default = "//",
+            subtype = "FILE_NAME"
+    )
+
     collection_title: StringProperty(
             name = "Collection Title",
             description = "The name of the Collection to hold the generated books.",
@@ -36,6 +43,7 @@ class LibraryPreferences(bpy.types.AddonPreferences):
         box = layout.box()
 
         box.label(text = "Book Settings")
+        # box.prop(self, "books_blend")
         box.prop(self, "collection_title")
 
         box = layout.box()
