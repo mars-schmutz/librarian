@@ -3,6 +3,22 @@ from bpy.props import *
 from bpy.types import (Panel, Menu, Operator, PropertyGroup, UIList)
 import bpy.types
 
+class LIBR_PT_BooksImport(Panel):
+    bl_idname = "LIBRARIAN_PT_import"
+    bl_label = "Import Collection"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "Librarian"
+
+    def draw(self, ctx):
+        layout = self.layout
+        scene = ctx.scene
+        libr = scene.library
+        user_prefs = ctx.preferences
+        libr_prefs = user_prefs.addons["librarian"].preferences
+
+        layout.operator('libr.import', text = "Import")
+
 class LIBR_PT_BooksGenerator(Panel):
     bl_idname = "LIBRARIAN_PT_booksgen"
     bl_label = "Book Generator"
