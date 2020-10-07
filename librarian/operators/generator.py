@@ -68,17 +68,20 @@ def genBookGroups(ctx, booksCollection):
 
     if libr.gen_type == 'SINGLE':
         arr = [[{'x':0, 'y':0}]]
+        placeBooks(ctx, arr, booksCollection)
     elif libr.gen_type == 'LIBRARY' and libr.library_gen_type == 'GRID':
         arr = genModuleArray(ctx)
+        placeBooks(ctx, arr, booksCollection)
         # print(arr)
     elif libr.gen_type == "OBJECT":
         arr = genObjArray(ctx)
     else:
         print('Mode not supported yet')
     
+def placeBooks(ctx, arr, coll):
     for row in arr:
         for obj in row:
-            fillModule(ctx, booksCollection, obj)
+            fillModule(ctx, coll, obj)
             # bpy.data.collections['Bookshelf'].objects.link(copy)
 
 def regenerateBookGroups(ctx, collection):
