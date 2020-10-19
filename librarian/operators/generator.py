@@ -74,9 +74,19 @@ def genBookGroups(ctx, booksCollection):
         placeBooks(ctx, arr, booksCollection)
         # print(arr)
     elif libr.gen_type == "OBJECT":
-        arr = genObjArray(ctx)
+        # arr = genObjArray(ctx)
+        # getShelf(ctx)
+        raise Exception("Add OBJECT gen type")
     else:
         print('Mode not supported yet')
+
+def getShelf(ctx):
+    scene = ctx.scene
+    libr = scene.library
+    shelfObj = libr.library_object
+    
+    me = shelfObj.data
+    bpy.context.scene.objects.active = bpy.data.objects[shelfObj]
     
 def placeBooks(ctx, arr, coll):
     for row in arr:
@@ -94,7 +104,6 @@ def regenerateBookGroups(ctx, collection):
 
     genBookGroups(ctx, collection)
 
-
 def genModuleArray(ctx):
     # Generation for MODULE type
     scene = ctx.scene
@@ -108,9 +117,16 @@ def genModuleArray(ctx):
     
     return(moduleArr)
 
-def genObjArray(ctx):
+def genObjArray(ctx, coll):
     # Generation for the OBJECT type
-    pass
+    scene = ctx.scene
+    libr = scene.library
+    shelfObj = libr.library_object
+
+    rNum = random.randint(0, len(coll.all_objects))
+    while rNum == 0:
+        rNum = random.randint(0, len(coll.all_object))
+    base = coll.all_objects[rNum - 1]
 
 def genObj(ctx, booksCollection, obj):
     # Base generator for each book object for the MODULE gen settings
