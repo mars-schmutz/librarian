@@ -67,8 +67,7 @@ class LIBRProperties(PropertyGroup):
         min = 1,
         max = 2000000000,
         default = 1,
-    )
-
+    ) 
     gen_type: EnumProperty(
         name = "Generation Type",
         items = (
@@ -188,6 +187,30 @@ class LIBRProperties(PropertyGroup):
         min = -1,
         max = 1,
         default = 0
+    )
+
+    cover_genre_fiction: BoolProperty(
+        name = "Fiction",
+        description = "Allow Librarian to generate covers for the fiction genre",
+        default = True
+    )
+
+    cover_genre_nonfic: BoolProperty(
+        name = "Non Fiction",
+        description = "Allow Librarian to generate covers for the non fiction genre",
+        default = False
+    )
+
+    cover_genre_textbook: BoolProperty(
+        name = "Textbooks",
+        description = "Allow Librarian to generate covers for textbooks",
+        default = False
+    )
+
+    cover_genre_magazine: BoolProperty(
+        name = "Magazine",
+        description = "Allow Librarian to generate covers for magazines",
+        default = False
     )
 
 # Registration

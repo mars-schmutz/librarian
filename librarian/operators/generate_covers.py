@@ -29,6 +29,20 @@ class LIBR_OT_GenerateCovers(bpy.types.Operator):
             return { 'CANCELLED' }
 
         for i in booksCollection.objects:
-            raise Exception("FInish material setting")
+            addMaterials(ctx, i)
         
         return { 'FINISHED' }
+
+#########################################
+# Material Helpers
+#########################################
+
+def addMaterials(ctx, obj):
+    pass
+
+#########################################
+# Math Helpers
+#########################################
+
+def genRGB():
+    return {"r": random.randint(0, 255), "g": random.randint(0, 255), "b": random.randint(0, 255)}

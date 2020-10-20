@@ -15,4 +15,11 @@ def main():
         print('Z::{0}'.format(coords[2]))
         print('')
 
-main()
+def randintTest():
+    while True:
+        rNum = random.randint(0, 255)
+        print(rNum)
+        if rNum == 255:
+            break
+
+randintTest()

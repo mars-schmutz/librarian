@@ -114,3 +114,11 @@ class LIBR_PT_Covers(Panel):
         libr = scene.library
 
         layout.operator("libr.generate_covers", text = "Generate")
+
+        box = layout.box()
+        box.label(text = "Cover Types")
+        col = box.column()
+        col.prop(libr, "cover_genre_fiction")
+        col.prop(libr, "cover_genre_nonfic")
+        col.prop(libr, "cover_genre_textbook")
+        col.prop(libr, "cover_genre_magazine")
