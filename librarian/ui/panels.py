@@ -34,7 +34,6 @@ class LIBR_PT_BooksGenerator(Panel):
         layout.operator('libr.generate', text = 'Generate').regen = False
         layout.operator('libr.generate', text = 'Regenerate').regen = True
 
-        layout.prop(libr, "gen_seed")
         layout.prop(libr, "gen_type", expand = True)
 
         # Determine UI view based on gen_type value
@@ -61,14 +60,21 @@ class LIBR_PT_BooksGenerator(Panel):
                 row = box.row()
                 row.prop_search(libr, "library_object", bpy.data, "objects")
         
-        elif libr.gen_type == 'SINGLE':
-            layout.label(text = "Single Shelf Settings", icon = "SETTINGS")
+        elif libr.gen_type == 'SHELF':
+            layout.prop(libr, "shelf_gen_type", expand = True)
+
+            # Determin UI based on single_gen_type
+            # We shouldn't need a separate if statement for 'SINGLE' becasue we don't have any settings specific to a single shelf
+            if libr.single_gen_type == 'STACK':
+                box = layout.box()
+                box.label(text = "Stack Settings", icon = "SETTINGS")
+
+                row = box.row()
+                row.prop(libr, 'book_rotZ_fac')
 
         # General settings for all gen_types
         box = layout.box()
         box.label(text = 'General Settings')
-        row = box.row()
-        box.prop(libr, "books_limit")
         row = box.row()
         row.prop(libr, 'module_width')
         row.prop(libr, 'module_height')

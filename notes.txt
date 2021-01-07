@@ -1,0 +1,6 @@
+In this moment of enlightenment, let me for once and all figure out shelf_row_width and module_width
+
+shelf_row_width controls the gap between each shelf of books
+module_width controls the dimensions of the shelf itself
+
+the gap gets added to the shelf dimensions so we don't have shelves spilling out into each other

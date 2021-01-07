@@ -48,7 +48,7 @@ from . ui.panels import LIBR_PT_BooksList
 from . ui.panels import LIBR_PT_Covers
 
 # Addon Operators
-from . operators.generator import LIBR_OT_Generate
+from . operators.generate_books import LIBR_OT_Generate
 from . operators.generate_covers import LIBR_OT_GenerateCovers
 
 # Global addon properties
@@ -61,18 +61,11 @@ class LIBRProperties(PropertyGroup):
         default = False
     )
 
-    gen_seed: IntProperty(
-        name = "Seed",
-        description = "Input a seed for book generation",
-        min = 1,
-        max = 2000000000,
-        default = 1,
-    ) 
     gen_type: EnumProperty(
         name = "Generation Type",
         items = (
             ("LIBRARY", "Library", "Generate a complete library"),
-            ("SINGLE", "Single Shelf", "Generate a single shelf of books"),
+            ("SHELF", "Shelf", "Generate a single shelf of books"),
         ),
         description = "Determine the arrangement of books generated", default = "LIBRARY",
     )
@@ -107,12 +100,23 @@ class LIBRProperties(PropertyGroup):
         default = "GRID",
     )
 
-    books_limit: IntProperty(
-        name = "Book Limit",
-        description = "Maximum amount of books generated",
-        min = 1,
-        max = 1000,
-        default = 100,
+    shelf_gen_type: EnumProperty(
+        name = "Single Shelf Gen Type",
+        items = (
+            ("SINGLE", "Single Shelf", "Generate one shelf"),
+            ("STACK", "Stack", "Generate a vertical stack of books"),
+        ),
+        description = "Determine the type of single shelf generated",
+        default = "SINGLE",
+    )
+
+    # gen_type: Stack settings
+    book_rotZ_fac: FloatProperty(
+        name = "Z Variation",
+        description = "Factor to control random Z axis rotation",
+        min = 0,
+        max = 1,
+        default = 0,
     )
 
     # Library Grid rows and columns and width of each

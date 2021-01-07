@@ -16,7 +16,7 @@ class LIBR_OT_Generate(bpy.types.Operator):
     bl_description = "Generate books based on settings."
     bl_options = { 'REGISTER', 'UNDO' }
 
-    regen: BoolProperty(name = "Regeneration", default = False)
+    # regen: BoolProperty(name = "Regeneration", default = False)
 
     def execute(self, ctx):
         scene = ctx.scene
@@ -66,14 +66,16 @@ def genBookGroups(ctx, booksCollection):
         bookshelf = bpy.data.collections.new('Bookshelf')
         bpy.context.scene.collection.children.link(bookshelf)
 
-    if libr.gen_type == 'SINGLE':
+    if libr.gen_type == "SHELF" and libr.shelf_gen_type == "SINGLE":
         arr = [[{'x':0, 'y':0}]]
         placeBooks(ctx, arr, booksCollection)
+    elif libr.gen_type == "SHELF" and libr.shelf_gen_type = "STACK":
+        raise Exception("Add STACK gen type")
     elif libr.gen_type == 'LIBRARY' and libr.library_gen_type == 'GRID':
         arr = genModuleArray(ctx)
         placeBooks(ctx, arr, booksCollection)
         # print(arr)
-    elif libr.gen_type == "OBJECT":
+    elif libr.gen_type == "LIBRARY" and libr.library_gen_type == "OBJECT":
         # arr = genObjArray(ctx)
         # getShelf(ctx)
         raise Exception("Add OBJECT gen type")
@@ -94,6 +96,7 @@ def placeBooks(ctx, arr, coll):
             fillModule(ctx, coll, obj)
             # bpy.data.collections['Bookshelf'].objects.link(copy)
 
+# Come back here once I figure everything out
 def regenerateBookGroups(ctx, collection):
     # Get collection
     bookshelf = bpy.data.collections['Bookshelf']
@@ -174,6 +177,13 @@ def fillModule(ctx, booksCollection, obj):
     shelf_space = True
     rot = calcRotation(ctx)
 
+    module_handle = bpy.data.objects.new("empty", None)
+    bpy.context.scene.collection.objects.link(module_handle)
+    module_handle.empty_display_size = 1
+    module_handle.empty_display_type = "SPHERE"
+    # Need to set the location so it only appears once for each shelf module
+    # module_handle.location()
+
     while shelf_space:
         if combined_width < module_width:
             copy = genObj(ctx, booksCollection, obj)
@@ -228,6 +238,7 @@ def calcBookDimensions(ctx):
     return (x, y, z)
 
 def calcRotation(ctx):
+    # Calculate book rotation based on rotational variable
     scene = ctx.scene
     libr = scene.library
 
