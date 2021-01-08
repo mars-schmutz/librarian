@@ -9,7 +9,9 @@ To install Librarian, go to Blender Preferences > Addons > Install and select th
 ## Features
 
 * Different object generation types
-  * Single Shelf
+  * Shelf
+    * Single shelf
+    * Vertical stack
   * Library
     * Grid
     * Object
